@@ -1,0 +1,13 @@
+[🔧 Django 개발 환경 실행 방법]
+
+1. CMD 또는 VS Code 터미널 열기
+
+2. backend 폴더로 이동:
+   ex) cd C:\Users\user\Desktop\강은중 3학년 1학기 수업\공개SW프로젝트\프로젝트\SOS\backend
+   본인의 로컬 환경 주소에 맞춰서 이동해야 함!!
+
+3. 가상환경 활성화:
+   venv\Scripts\activate
+
+4. 서버 실행:
+   python manage.py runserver
