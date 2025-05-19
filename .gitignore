@@ -25,3 +25,6 @@ __pycache__/
 # 기타 캐시
 *.egg-info/
 *.idea/
+
+# mysql 연동 secrets.yaml
+secrets.yaml
