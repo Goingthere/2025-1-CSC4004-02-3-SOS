@@ -3,6 +3,7 @@ Django==4.2.21
 djangorestframework==3.16.0
 mysqlclient==2.2.7
 python-dotenv==1.1.0
+PyYAML==6.0.2
 sqlparse==0.5.3
 typing_extensions==4.13.2
 tzdata==2025.2

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>검색 결과</title>
+</head>
+<body>
+    {% if not app %}
+        <p><strong>해당 게임은 존재하지 않습니다.</strong></p>
+    {% else %}
+        <h2>{{ app.appName }}</h2>
+
+        <!--앱 썸네일 이미지 -->
+        {% if app.appImage %}
+            <img src="{{ app.appImage }}" alt="{{ app.appName }} 썸네일" width="200">
+        {% endif %}
+
+        <p><strong>개발사:</strong> {{ app.developers }}</p>
+        <p><strong>배급사:</strong> {{ app.publishers }}</p>
+        <p><strong>출시일:</strong> {{ app.releaseDate }}</p>
+
+        <h3>과거 할인 이력</h3>
+        <ul>
+            {% for record in prior_discounts %}
+                <li>{{ record.discountStart|date:"Y-m-d" }} ~ {{ record.discountEnd|date:"Y-m-d" }} ({{ record.discountPercents }}% 할인)</li>
+            {% empty %}
+                <li>할인 이력이 없습니다.</li>
+            {% endfor %}
+        </ul>
+
+        <h3>예측 할인</h3>
+        {% if predicted_discounts %}
+            <ul>
+                {% for future in predicted_discounts %}
+                    <li>{{ future.predictedDiscountStart|date:"Y-m-d" }} ({{ future.predictedDiscountPercents }}% 할인 예측)</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p><strong>할인 예측 결과가 없습니다.</strong></p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
