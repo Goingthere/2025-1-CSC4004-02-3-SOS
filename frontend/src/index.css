@@ -11,3 +11,146 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* 🔷 네비게이션 바 배경과 텍스트 색상 설정 */
+.navbar-custom {
+    background-color: #001f3f;
+    /* 진한 남색 */
+}
+
+/* 로고 */
+.navbar-custom .navbar-brand {
+    color: white !important;
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-left: 1rem;
+}
+
+/* 기본 텍스트들을 흰색으로 지정 */
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link,
+.navbar-custom .dropdown-toggle,
+.navbar-custom .dropdown-item {
+    color: white !important;
+}
+
+/* 드롭다운 메뉴 배경색과 호버 효과 */
+.navbar-custom .dropdown-menu {
+    background-color: #002b5c;
+}
+
+.navbar-custom .dropdown-item:hover {
+    background-color: #004080;
+    color: white;
+}
+
+/* 비활성화 링크는 약간 회색 */
+.navbar-custom .nav-link.disabled {
+    color: #ccc !important;
+}
+
+/* 🔔 알림 버튼 스타일 (배경 흰색, 아이콘 검정) */
+.navbar-custom .btn-light {
+    background-color: white !important;
+    color: black !important;
+    border: none;
+}
+
+.navbar-custom .btn-light i {
+    color: black !important;
+}
+
+.navbar-custom .btn-outline-success:hover {
+    background-color: white;
+    color: #001f3f;
+}
+
+/* nav 메뉴 */
+.navbar-nav {
+    margin-left: 1.5rem;
+    /* 원하는 간격만큼 조정 (예: 1.5rem or 2rem) */
+}
+
+/* Community 메뉴의  dropdown 메뉴바 */
+.navbar-nav .dropdown-menu {
+    position: absolute;
+    /* position 속성 추가 */
+    top: 100%;
+    /* 드롭다운이 버튼 바로 아래에 나오도록 설정 */
+    left: 0;
+    z-index: 1050;
+    /* 드롭다운이 다른 요소 위로 표시되도록 설정 */
+}
+
+.login, .signUp, .forgotID, .forgotPW {
+    /* 수직 가운데 */
+    display: flex;
+    align-items: center;
+    /* 수평 가운데 */
+    align-content: center;
+    margin: 0 auto;
+
+    width: 100vw;
+    height: 100vh;
+
+    /* 요소들이 위에서 아래로 쌓이게 */
+    flex-direction: column;
+}
+
+.title-login, .title-signUp, .title-forgotID, .title-forgotPW {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-top: 6rem;
+}
+
+.inputPW, .inputID, .inputEmail {
+    width: 40rem !important;
+    margin-top : 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.form-control {
+    border: 0.1rem solid #001f3f !important;
+}
+
+.btn-primary {
+    background-color: #001f3f !important;
+    border: none !important;
+    padding: 0.7rem !important;
+    width: 40rem !important;
+    margin-top: 1rem !important; 
+    margin-bottom: 1rem !important;
+}
+
+/* SignUp.jsx - 아이디 중복 확인 버튼 */
+.btn-outline-primary {
+   background-color: #001f3f !important;
+    border: none !important;
+    color: white !important;
+}
+
+.container {
+    display: flex !important;
+    width: 40rem !important;
+    justify-content: space-between !important;
+    padding: 1rem !important;
+}
+
+.login-link-container {
+    display: flex !important;
+    width: 40rem !important;
+    justify-content: space-between !important;
+    padding: 1rem !important;
+    text-align: center !important;
+}
+
+.box {
+    flex: 1;
+    text-align: center;
+    padding: 1rem;
+}
+
+.box a{
+    text-decoration: none;
+    color: black;
+}
