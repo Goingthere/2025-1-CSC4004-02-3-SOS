@@ -3,30 +3,28 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-const Login = () => {
+const Login = ({ setIsLoggedIn }) => {
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
-
-  // 🔷 임시 로그인 여부 설정 (true면 로그인 된 상태로 가정)
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   // 🔷 로그인 요청 함수
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8000/login', {
+      const response = await fetch('/api/login/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: userId, password: password })
+        body: JSON.stringify({ user_name: userId, password: password })
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('access', data.access);
+        localStorage.setItem('refresh', data.refresh);
         setErrorMessage('');
         setIsLoggedIn(true); // 로그인 성공 시 상태 업데이트
         navigate('/home');
@@ -47,59 +45,6 @@ const Login = () => {
 
   return (
     <div style={{ overflow: 'hidden' }}>
-      {/* 🔷 네비게이션 바 */}
-      <nav className="navbar navbar-expand-lg navbar-custom">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/home"><b>SOS</b></a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <a className="nav-link" href="#">AllGames</a>
-              </li>
-              <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">Community</a>
-                <ul className="dropdown-menu">
-                  <li><a className="dropdown-item" href="#">Notion</a></li>
-                  <li><a className="dropdown-item" href="#">Figma</a></li>
-                  <li><a className="dropdown-item" href="#">GitHub</a></li>
-                </ul>
-              </li>
-            </ul>
-
-            <button type="button" className="btn btn-light me-2 position-relative">
-              <i className="fa-solid fa-bell"></i>
-              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                !
-                <span className="visually-hidden">unread messages</span>
-              </span>
-            </button>
-
-            {/* 🔷 로그인 여부에 따라 표시 변경 */}
-            {isLoggedIn ? (
-              <div className="dropdown">
-                <button className="btn btn-light dropdown-toggle ms-2" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                  <b>Hello, User!</b>
-                </button>
-                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                  <li><a className="dropdown-item" href="#">WishList</a></li>
-                  <li><a className="dropdown-item" href="#">Account</a></li>
-                  <li><a className="dropdown-item" href="#">Logout</a></li>
-                  <li><a className="dropdown-item text-danger" href="#">DeleteID</a></li>
-                </ul>
-              </div>
-            ) : (
-              <a href="/login" className="btn btn-light ms-2"><b>Login</b></a>
-            )}
-          </div>
-        </div>
-      </nav>
 
       {/* 🔷 로그인 폼 */}
       <div className="login">

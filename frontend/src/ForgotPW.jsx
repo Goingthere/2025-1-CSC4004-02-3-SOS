@@ -11,13 +11,13 @@ function ForgotPW() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("/api/users/reset-password/", {
+      const response = await fetch("/api/find_password/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user_id: userId,
+          user_name: userId,
           email: email,
         }),
       });
@@ -49,46 +49,6 @@ function ForgotPW() {
 
   return (
     <div style={{ overflow: "hidden" }}>
-      {/* 네비게이션 바 */}
-      <nav className="navbar navbar-expand-lg navbar-custom">
-        <div className="container-fluid">
-          <Link className="navbar-brand" to="/"><b>SOS</b></Link>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <Link className="nav-link" to="#">AllGames</Link>
-              </li>
-              <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">Community</a>
-                <ul className="dropdown-menu">
-                  <li><a className="dropdown-item" href="#">Notion</a></li>
-                  <li><a className="dropdown-item" href="#">Figma</a></li>
-                  <li><a className="dropdown-item" href="#">GitHub</a></li>
-                </ul>
-              </li>
-            </ul>
-
-            {/* 🔔 알림 아이콘 */}
-            <button type="button" className="btn btn-light me-2 position-relative">
-              <i className="fa-solid fa-bell"></i>
-              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                !
-                <span className="visually-hidden">unread messages</span>
-              </span>
-            </button>
-
-            {/* 🟦 로그인 버튼 */}
-            <Link to="/login" className="btn btn-light ms-2"><b>Login</b></Link>
-          </div>
-        </div>
-      </nav>
 
       {/* 비밀번호 재설정 입력 */}
       <div className="forgotPW">

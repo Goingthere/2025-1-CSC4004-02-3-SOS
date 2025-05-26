@@ -40,15 +40,13 @@ const SignUp = () => {
         e.preventDefault();
 
         try {
-            const res = await fetch("/api/users/register/", {
+            const res = await fetch("/api/signup/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    user_id: userId,
-                    user_name: name,
+                    user_name: userId,
                     password: password,
-                    password2: confirmPassword,
-                    nickname: nickname,  // 닉네임도 전송
+                    nickname: nickname,
                     email: email,
                 }),
             });
@@ -68,37 +66,6 @@ const SignUp = () => {
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-custom">
-                <div className="container-fluid">
-                    <Link className="navbar-brand" to="/home"><b>SOS</b></Link>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
-                                <Link className="nav-link" to="#">AllGames</Link>
-                            </li>
-                            <li className="nav-item dropdown">
-                                <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown">
-                                    Community
-                                </Link>
-                                <ul className="dropdown-menu">
-                                    <li><Link className="dropdown-item" to="#">Notion</Link></li>
-                                    <li><Link className="dropdown-item" to="#">Figma</Link></li>
-                                    <li><Link className="dropdown-item" to="#">GitHub</Link></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <button type="button" className="btn btn-light me-2 position-relative">
-                            <i className="fa-solid fa-bell"></i>
-                            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">!</span>
-                        </button>
-                        <Link to="/login" className="btn btn-light ms-2"><b>Login</b></Link>
-                    </div>
-                </div>
-            </nav>
-
             <div className="signUp">
                 <h2 className="title-signUp">Enter Your Information</h2>
 
