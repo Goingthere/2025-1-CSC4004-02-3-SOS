@@ -28,15 +28,18 @@
         </ul>
 
         <h3>예측 할인</h3>
-        {% if predicted_discounts %}
-            <ul>
-                {% for future in predicted_discounts %}
-                    <li>{{ future.predictedDiscountStart|date:"Y-m-d" }} ({{ future.predictedDiscountPercents }}% 할인 예측)</li>
-                {% endfor %}
-            </ul>
+        {% if app.isFree %}
+            <p><strong>해당 게임은 무료입니다.</strong></p>
+        {% elif app.currentlyDiscounted %}
+            <p><strong>해당 게임은 현재 할인 중입니다.</strong></p>
+        {% elif predicted_discounts %}
+        <ul>
+        {% for future in predicted_discounts %}
+            <li>{{ future.predictedDiscountStart|date:"Y-m-d" }} ({{ future.predictedDiscountPercents }}% 할인 예측)</li>
+        {% endfor %}
+        </ul>
         {% else %}
             <p><strong>할인 예측 결과가 없습니다.</strong></p>
         {% endif %}
-    {% endif %}
 </body>
 </html>

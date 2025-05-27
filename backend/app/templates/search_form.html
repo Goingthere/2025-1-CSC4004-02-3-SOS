@@ -1,14 +1,13 @@
-    <!-- templates/app/search_form.html -->
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>할인 검색</title>
-    </head>
-    <body>
-        <h1>게임 할인 정보 검색</h1>
-        <form method="get" action="{% url 'search_result' %}">
-            <input type="text" name="q" placeholder="게임 이름을 입력하세요" required>
-            <button type="submit">검색</button>
-        </form>
-    </body>
-    </html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>게임 할인 검색</title>
+</head>
+<body>
+    <h1>게임 할인 정보 검색</h1>
+    <form method="get" action="{% url 'search_result' %}">
+        <input type="text" name="q" placeholder="게임 이름을 입력하세요" required>
+        <button type="submit">검색</button>
+    </form>
+</body>
+</html>
