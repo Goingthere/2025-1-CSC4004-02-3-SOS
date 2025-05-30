@@ -1,0 +1,69 @@
+/* 🔷 네비게이션 바 배경과 텍스트 색상 설정 */
+.navbar-custom {
+    background-color: #001f3f;
+    /* 진한 남색 */
+}
+
+/* 로고 */
+.navbar-custom .navbar-brand {
+    color: white !important;
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-left: 1rem;
+}
+
+/* 기본 텍스트들을 흰색으로 지정 */
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link,
+.navbar-custom .dropdown-toggle,
+.navbar-custom .dropdown-item {
+    color: white !important;
+}
+
+/* 드롭다운 메뉴 배경색과 호버 효과 */
+.navbar-custom .dropdown-menu {
+    background-color: #002b5c;
+}
+
+.navbar-custom .dropdown-item:hover {
+    background-color: #004080;
+    color: white;
+}
+
+/* 비활성화 링크는 약간 회색 */
+.navbar-custom .nav-link.disabled {
+    color: #ccc !important;
+}
+
+/* 🔔 알림 버튼 스타일 (배경 흰색, 아이콘 검정) */
+.navbar-custom .btn-light {
+    background-color: white !important;
+    color: black !important;
+    border: none;
+}
+
+.navbar-custom .btn-light i {
+    color: black !important;
+}
+
+.navbar-custom .btn-outline-success:hover {
+    background-color: white;
+    color: #001f3f;
+}
+
+/* nav 메뉴 */
+.navbar-nav {
+    margin-left: 1.5rem;
+    /* 원하는 간격만큼 조정 (예: 1.5rem or 2rem) */
+}
+
+/* Community 메뉴의  dropdown 메뉴바 */
+.navbar-nav .dropdown-menu {
+    position: absolute;
+    /* position 속성 추가 */
+    top: 100%;
+    /* 드롭다운이 버튼 바로 아래에 나오도록 설정 */
+    left: 0;
+    z-index: 1050;
+    /* 드롭다운이 다른 요소 위로 표시되도록 설정 */
+}
