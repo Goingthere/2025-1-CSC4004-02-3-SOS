@@ -23,8 +23,11 @@ const Login = ({ setIsLoggedIn }) => {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('access', data.access);
-        localStorage.setItem('refresh', data.refresh);
+        // ✅ 토큰과 닉네임 저장
+        localStorage.setItem('access', data.access_token);
+        localStorage.setItem('refresh', data.refresh_token);
+        localStorage.setItem('nickname', data.user.nickname); // 🔹 닉네임 저장
+
         setErrorMessage('');
         setIsLoggedIn(true); // 로그인 성공 시 상태 업데이트
         navigate('/home');
@@ -44,8 +47,7 @@ const Login = ({ setIsLoggedIn }) => {
   };
 
   return (
-    <div style={{ overflow: 'hidden' }}>
-
+    <body style={{ overflow: 'hidden' }}>
       {/* 🔷 로그인 폼 */}
       <div className="login">
         <h1 className="title-login">Login</h1>
@@ -96,7 +98,7 @@ const Login = ({ setIsLoggedIn }) => {
           <div className="box"><a href="/forgot-pw">Forgot Password?</a></div>
         </div>
       </div>
-    </div>
+    </body>
   );
 };
 
