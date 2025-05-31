@@ -5,7 +5,9 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import './Navbar.css';
 
 const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
-  // 🔷 로그아웃 요청 함수
+  // localStorage 에 로그인 시 저장해둔 nickname이 있으면 꺼내오고, 없으면 'User' 대체
+  const nickname = localStorage.getItem('nickname') || 'User';
+
   const handleLogout = async () => {
     const accessToken = localStorage.getItem('access');
     const refreshToken = localStorage.getItem('refresh');
@@ -30,6 +32,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
       if (response.ok) {
         localStorage.removeItem('access');
         localStorage.removeItem('refresh');
+        localStorage.removeItem('nickname'); // 로그아웃 시 닉네임도 제거
         setIsLoggedIn(false);
         alert(data.message || '✅ 로그아웃되었습니다.');
       } else {
@@ -44,10 +47,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-custom">
       <div className="container-fluid">
-        {/* 🔷 로고 */}
         <Link className="navbar-brand" to="/home"><b>SOS</b></Link>
-
-        {/* 🔷 모바일 토글 버튼 */}
         <button
           className="navbar-toggler"
           type="button"
@@ -60,7 +60,6 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* 🔷 내비게이션 메뉴 */}
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
@@ -111,13 +110,11 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
             </li>
           </ul>
 
-          {/* 🔔 알림 버튼 */}
           <button type="button" className="btn btn-light me-2 position-relative">
             <i className="fa-solid fa-bell"></i>
             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">!</span>
           </button>
 
-          {/* 🔷 로그인 여부에 따른 버튼 표시 */}
           {isLoggedIn ? (
             <div className="dropdown">
               <button
@@ -126,11 +123,11 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <b>Hello, User!</b>
+                <b>Hello, {nickname}!</b>
               </button>
               <ul className="dropdown-menu dropdown-menu-end">
                 <li><Link className="dropdown-item" to="/wishlist">WishList</Link></li>
-                <li><Link className="dropdown-item" to="#">Account</Link></li>
+                <li><Link className="dropdown-item" to="/myaccount">Account</Link></li>
                 <li>
                   <button className="dropdown-item" onClick={handleLogout}>
                     Logout

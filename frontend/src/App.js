@@ -4,12 +4,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-import Navbar from "./Navbar"; // 네비게이션 바
+import Navbar from "./components/Navbar"; // 네비게이션 바
 import Home from "./Home"; // Home 컴포넌트 임포트
 import Login from "./Login"; // Login 컴포넌트 임포트
 import SignUp from "./SignUp";
 import ForgotID from "./ForgotID";
 import ForgotPW from "./ForgotPW";
+import Wishlist from "./WishList";
+import MyAccount from "./MyAccount";
 
 const App = () => {
 
@@ -33,6 +35,9 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/forgot-id" element={<ForgotID />} />
         <Route path="/forgot-pw" element={<ForgotPW />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/myaccount" element={<MyAccount />} />
+
 
         {/* 매칭되는 경로 없으면 홈으로 */}
         <Route path="*" element={<Navigate to="/home" replace />} />

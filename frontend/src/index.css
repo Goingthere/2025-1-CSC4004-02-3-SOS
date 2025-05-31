@@ -1,88 +1,21 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
 }
 
-/* 🔷 네비게이션 바 배경과 텍스트 색상 설정 */
-.navbar-custom {
-    background-color: #001f3f;
-    /* 진한 남색 */
-}
-
-/* 로고 */
-.navbar-custom .navbar-brand {
-    color: white !important;
-    font-size: 1.6rem;
-    font-weight: bold;
-    margin-left: 1rem;
-}
-
-/* 기본 텍스트들을 흰색으로 지정 */
-.navbar-custom .navbar-brand,
-.navbar-custom .nav-link,
-.navbar-custom .dropdown-toggle,
-.navbar-custom .dropdown-item {
-    color: white !important;
-}
-
-/* 드롭다운 메뉴 배경색과 호버 효과 */
-.navbar-custom .dropdown-menu {
-    background-color: #002b5c;
-}
-
-.navbar-custom .dropdown-item:hover {
-    background-color: #004080;
-    color: white;
-}
-
-/* 비활성화 링크는 약간 회색 */
-.navbar-custom .nav-link.disabled {
-    color: #ccc !important;
-}
-
-/* 🔔 알림 버튼 스타일 (배경 흰색, 아이콘 검정) */
-.navbar-custom .btn-light {
-    background-color: white !important;
-    color: black !important;
-    border: none;
-}
-
-.navbar-custom .btn-light i {
-    color: black !important;
-}
-
-.navbar-custom .btn-outline-success:hover {
-    background-color: white;
-    color: #001f3f;
-}
-
-/* nav 메뉴 */
-.navbar-nav {
-    margin-left: 1.5rem;
-    /* 원하는 간격만큼 조정 (예: 1.5rem or 2rem) */
-}
-
-/* Community 메뉴의  dropdown 메뉴바 */
-.navbar-nav .dropdown-menu {
-    position: absolute;
-    /* position 속성 추가 */
-    top: 100%;
-    /* 드롭다운이 버튼 바로 아래에 나오도록 설정 */
-    left: 0;
-    z-index: 1050;
-    /* 드롭다운이 다른 요소 위로 표시되도록 설정 */
-}
-
-.login, .signUp, .forgotID, .forgotPW {
+.login,
+.signUp,
+.forgotID,
+.forgotPW {
     /* 수직 가운데 */
     display: flex;
     align-items: center;
@@ -97,15 +30,20 @@ code {
     flex-direction: column;
 }
 
-.title-login, .title-signUp, .title-forgotID, .title-forgotPW {
+.title-login,
+.title-signUp,
+.title-forgotID,
+.title-forgotPW {
     font-size: 3rem;
     font-weight: bold;
     margin-top: 6rem;
 }
 
-.inputPW, .inputID, .inputEmail {
+.inputPW,
+.inputID,
+.inputEmail {
     width: 40rem !important;
-    margin-top : 1.5rem !important;
+    margin-top: 1.5rem !important;
     margin-bottom: 1.5rem !important;
 }
 
@@ -118,22 +56,23 @@ code {
     border: none !important;
     padding: 0.7rem !important;
     width: 40rem !important;
-    margin-top: 1rem !important; 
+    margin-top: 1rem !important;
     margin-bottom: 1rem !important;
 }
 
 /* SignUp.jsx - 아이디 중복 확인 버튼 */
 .btn-outline-primary {
-   background-color: #001f3f !important;
+    background-color: #001f3f !important;
     border: none !important;
     color: white !important;
 }
 
 .container {
-    display: flex !important;
-    width: 40rem !important;
-    justify-content: space-between !important;
-    padding: 1rem !important;
+    font-family: 'Arial', sans-serif;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    text-align: center;
 }
 
 .login-link-container {
@@ -150,7 +89,328 @@ code {
     padding: 1rem;
 }
 
-.box a{
+a {
+    text-decoration: none !important;
+    color: black !important;
+}
+
+.game-name-omit {
+    display: flex;
+    font-size: 1.5rem;
+    align-items: center;
+    font-weight: bold;
+    height: 100%;
+}
+
+.wishlist-btn {
+    font-size: 26px;
+    cursor: pointer;
+    color: #000;
+}
+
+.history-title {
+    font-weight: bold;
+    text-align: left;
+}
+
+.model-result-box {
+    background-color: #CCC;
+    height: 90%;
+    border-radius: 10px;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    text-align: center;
+    margin: 1rem;
+}
+
+.model-result {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.game-list {
+    padding: 0 10rem;
+}
+
+.game-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.game-info {
+    background-color: #CCC;
+    text-align: left;
+    padding: 1rem 3rem;
+    border-radius: 10px;
+    height: 90%;
+}
+
+.game-info-omit {
+    display: flex;
+    align-items: center;
+    width: 100vw;
+    gap: 1rem;
+}
+
+.game-info-omit img {
+    width: 160px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+
+.game-name {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.table-title th {
+    text-align: center;
+    background-color: #001f3f;
+    color: white;
+}
+
+.history-list td {
+    text-align: center;
+}
+
+.container {
+    font-family: 'Arial', sans-serif;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.search-title {
+    font-weight: bold;
+    font-size: 2.5rem;
+    margin: 3rem auto 2rem auto;
+}
+
+.search-box {
+    position: relative;
+    max-width: 70%;
+    margin: 0 auto 3rem auto;
+}
+
+.search-box input {
+    width: 100%;
+    height: 80%;
+    padding: 16px 24px;
+    border: 0.2rem solid #001f3f;
+    border-radius: 30px;
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2);
+    font-size: 18px;
+    outline: none;
+}
+
+.search-box .icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 22px;
+    color: #333;
+    pointer-events: none;
+}
+
+.sale-title {
+    font-size: 1.7rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5rem;
+    justify-content: center;
+}
+
+.card {
+    background-color: #DDD !important;
+    border-radius: 16px;
+    width: 300px;
+    padding: 16px;
+    box-sizing: border-box;
     text-decoration: none;
-    color: black;
+    color: inherit;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.03);
+}
+
+.card-title {
+    font-weight: bold;
+    margin-bottom: 6px;
+    font-size: 18px;
+}
+
+.card-date {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.festival-title-box,
+.wishlist-title-box,
+.myaccount-title-box {
+    width: 100vw;
+    padding: 3rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    border-bottom: #CCC solid 2px;
+}
+
+.festival-title,
+.wishlist-title,
+.myaccount-title {
+    font-weight: bold;
+}
+
+.discount-section {
+    width: 20%;
+    padding-left: 1rem;
+    border-left: #CCC solid 2px;
+    display: flex;
+    align-items: center;
+}
+
+.discount-text {
+    text-align: right;
+    margin-right: 15px;
+}
+
+.discount-label {
+    font-size: 0.9em;
+    color: #555;
+}
+
+.discount-rate {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    /* 화면 전체 너비 */
+    height: 100vh;
+    /* 화면 전체 높이 */
+    background: rgba(0, 0, 0, 0.5);
+    /* 반투명 검은색 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+    /* 다른 요소 위에 뜨도록 */
+}
+
+.wishlist-modal-content {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+}
+
+.wishlist-modal-content input {
+    width: 100%;
+}
+
+.wishlist-modal-content button {
+    width: 45% !important;
+    border: none !important;
+    color: white !important;
+}
+
+.wishlist-submit {
+    background-color: #001f3f !important;
+    margin-right: 10%;
+}
+
+.cancle {
+    background-color: red;
+}
+
+
+/* ----- */
+
+.myaccount-info-box{
+    background-color: #CCC;
+    padding: 2rem;
+    margin-left: 5rem;
+    width: 70%;
+}
+
+label{
+    font-weight: bold;
+    width: 100%;
+}
+
+.form-group{
+    margin-bottom: 1.5rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 70%;
+    padding: 0.8rem;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.button-group button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-save {
+    background-color: #001f3f !important;
+    color: white !important;
+}
+
+.icon {
+    margin-left: 1rem;
 }
