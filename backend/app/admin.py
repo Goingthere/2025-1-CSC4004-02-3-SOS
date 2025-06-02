@@ -1,10 +1,11 @@
 from django.contrib import admin
+import app.models as models
 
-from .models import AppInfo, AppGenreInfo, AppCategoryInfo, AppTagInfo, AppPriorDiscountInfo, AppPredictedDiscountInfo
-
-admin.site.register(AppInfo)
-admin.site.register(AppGenreInfo)
-admin.site.register(AppCategoryInfo)
-admin.site.register(AppTagInfo)
-admin.site.register(AppPriorDiscountInfo)
-admin.site.register(AppPredictedDiscountInfo)
+admin.site.register(models.AppInfo)
+admin.site.register(models.AppGenreInfo)
+admin.site.register(models.AppCategoryInfo)
+admin.site.register(models.AppTagInfo)
+admin.site.register(models.AppDevelopersInfo)
+admin.site.register(models.AppPublishersInfo)
+admin.site.register(models.AppPriorDiscountInfo)
+admin.site.register(models.AppPredictedDiscountInfo)

@@ -28,3 +28,6 @@ __pycache__/
 
 # mysql 연동 secrets.yaml
 secrets.yaml
+
+# itad api key 정보 파일
+itad_api_key.yaml

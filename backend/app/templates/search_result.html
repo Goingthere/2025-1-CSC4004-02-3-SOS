@@ -11,11 +11,23 @@
 
         <!--앱 썸네일 이미지 -->
         {% if app.appImage %}
-            <img src="{{ app.appImage }}" alt="{{ app.appName }} 썸네일" width="200">
+            <img src="{{ app.appImage }}" alt="{{ app.appName }} 썸네일" width="500">
         {% endif %}
 
-        <p><strong>개발사:</strong> {{ app.developers }}</p>
-        <p><strong>배급사:</strong> {{ app.publishers }}</p>
+        <p><strong>개발사:</strong> 
+        {% if developers %}
+            {{ developers|join:", " }}
+        {% else %}
+            없음
+        {% endif %}
+    </p>
+    <p><strong>배급사:</strong> 
+        {% if publishers %}
+            {{ publishers|join:", " }}
+        {% else %}
+            없음
+        {% endif %}
+    </p>
         <p><strong>출시일:</strong> {{ app.releaseDate }}</p>
 
         <h3>과거 할인 이력</h3>
@@ -28,7 +40,7 @@
         </ul>
 
         <h3>예측 할인</h3>
-        {% if app.isFree %}
+        {% if app.isFree %} 
             <p><strong>해당 게임은 무료입니다.</strong></p>
         {% elif app.currentlyDiscounted %}
             <p><strong>해당 게임은 현재 할인 중입니다.</strong></p>
@@ -41,5 +53,6 @@
         {% else %}
             <p><strong>할인 예측 결과가 없습니다.</strong></p>
         {% endif %}
+    {% endif %}
 </body>
 </html>

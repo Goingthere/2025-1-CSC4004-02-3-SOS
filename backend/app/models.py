@@ -6,26 +6,26 @@ class AppInfo(models.Model):
     appName = models.CharField(max_length=100, blank=True, null=True) # 앱 이름
     appImage = models.URLField(blank=True, null=True) # 앱 썸네일 이미지
     releaseDate = models.CharField(max_length=100, blank=True, null=True)  # 출시일
-    isFree = models.BooleanField(default=False, blank=True, null=True)  # 무료 여부
+    isFree = models.BooleanField(default=False, blank=True)  # 무료 여부
     type = models.CharField(max_length=20, blank=True, null=True)  # 타입(game / dlc / music 등)
-    metacriticScore = models.IntegerField(default=0, blank=True, null=True)  # 메타크리틱 점수
-    recommendationCount = models.IntegerField(default=0, blank=True, null=True)  # 추천 수
-    achievementCount = models.IntegerField(default=0, blank=True, null=True)  # 업적 수
-    screenshotCount = models.IntegerField(default=0, blank=True, null=True)  # 스크린샷 수
+    metacriticScore = models.IntegerField(default=0, blank=True)  # 메타크리틱 점수
+    recommendationCount = models.IntegerField(default=0, blank=True)  # 추천 수
+    achievementCount = models.IntegerField(default=0, blank=True)  # 업적 수
+    screenshotCount = models.IntegerField(default=0, blank=True)  # 스크린샷 수
     requiredAge = models.IntegerField(default=0, blank=True, null=True)  # 최소 권장 나이
-    price = models.IntegerField(default=0, blank=True, null=True)  # 가격
-    currentlyDiscounted = models.BooleanField(blank=True, null=True)  # 현재 할인 중 여부
+    init_price = models.IntegerField(default=0, blank=True, null=True)  # 할인 전 가격
+    final_price = models.IntegerField(default=0, blank=True, null=True)  # 할인 후 가격(안 하면 전 가격과 같아야 함)
+    currentlyDiscounted = models.BooleanField(default=False, blank=True)  # 현재 할인 중 여부
     
     class Meta:
         db_table = 'app_Info' # 테이블 이름 설정
 
     def __str__(self):
         return f"{self.appName} ({self.appID})"
-    price = models.IntegerField(default=0)
 
 # AppGenreInfo 테이블(앱 장르)
 class AppGenreInfo(models.Model):
-    genre = models.CharField(max_length=20)
+    genre = models.CharField(max_length=100)
     appID = models.ForeignKey(AppInfo, on_delete=models.CASCADE)
 
     class Meta:
@@ -37,7 +37,7 @@ class AppGenreInfo(models.Model):
 
 # AppCategoryInfo 테이블(앱 카테고리)
 class AppCategoryInfo(models.Model):
-    category = models.CharField(max_length=20)
+    category = models.CharField(max_length=100)
     appID = models.ForeignKey(AppInfo, on_delete=models.CASCADE)
 
     class Meta:
@@ -49,7 +49,7 @@ class AppCategoryInfo(models.Model):
     
 # AppTagInfo 테이블(앱 태그)
 class AppTagInfo(models.Model):
-    tag = models.CharField(max_length=20)
+    tag = models.CharField(max_length=100)
     appID = models.ForeignKey(AppInfo, on_delete=models.CASCADE)
 
     class Meta:
@@ -61,7 +61,7 @@ class AppTagInfo(models.Model):
 
 # AppDevelopers 테이블(앱 개발사)
 class AppDevelopersInfo(models.Model):
-    developer = models.CharField(max_length=20)
+    developer = models.CharField(max_length=100)
     appID = models.ForeignKey(AppInfo, on_delete=models.CASCADE)
 
     class Meta:
@@ -73,7 +73,7 @@ class AppDevelopersInfo(models.Model):
 
 # AppPublishers 테이블(앱 배급사)
 class AppPublishersInfo(models.Model):
-    publisher = models.CharField(max_length=20)
+    publisher = models.CharField(max_length=100)
     appID = models.ForeignKey(AppInfo, on_delete=models.CASCADE)
 
     class Meta:
@@ -90,10 +90,7 @@ class AppPriorDiscountInfo(models.Model):
 
     discountStart = models.DateTimeField(blank=True, null=True)  # 할인 시작일자
     discountEnd = models.DateTimeField(blank=True, null=True)    # 할인 종료일자
-
-    oldPrice = models.IntegerField()  # 할인 전 가격
-    newPrice = models.IntegerField()  # 할인 후 가격
-    discountPercents = models.IntegerField(default=0, blank=True, null=True)  # 할인율
+    discountPercents = models.IntegerField(default=0, blank=True)  # 할인율
 
     class Meta:
         db_table = 'app_prior_discount_info' # 테이블 이름 설정
