@@ -1,5 +1,6 @@
 import requests
 from datetime import datetime
+from dateutil.parser import parse
 from app.models import AppInfo, AppGenreInfo, AppCategoryInfo, AppTagInfo, AppPriorDiscountInfo, AppPublishersInfo, AppDevelopersInfo
 from utils.load_itad_api_key import loadApiKey
 
@@ -27,7 +28,7 @@ def getSteamInfo(appid):
         discountPercent = priceInfo.get("discount_percent", 0)
         currentlyDiscounted = discountPercent > 0 or finalPrice < initialPrice
         appName = appData.get("name")
-        releaseDate = appData.get("release_date", {}).get("date", "")
+        releaseDate = parse(appData.get("release_date", {}).get("date", ""), fuzzy=True).date()
 
         # AppInfo 테이블에 데이터 저장
         app, _ = AppInfo.objects.update_or_create(

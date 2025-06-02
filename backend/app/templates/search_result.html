@@ -46,9 +46,11 @@
             <p><strong>해당 게임은 현재 할인 중입니다.</strong></p>
         {% elif predicted_discounts %}
         <ul>
-        {% for future in predicted_discounts %}
-            <li>{{ future.predictedDiscountStart|date:"Y-m-d" }} ({{ future.predictedDiscountPercents }}% 할인 예측)</li>
-        {% endfor %}
+            <li>0.1 분위 예측: <strong>{{ predicted_discounts.predictedDateLeft }}</strong>일 후</li>
+            <li>0.5 분위 예측: <strong>{{ predicted_discounts.predictedDateMid }}</strong>일 후</li>
+            <li>0.9 분위 예측: <strong>{{ predicted_discounts.predictedDateRight }}</strong>일 후</li>
+            <li>예상 할인율: <strong>{{ predicted_discounts.predictedSalePercents }}%</strong></li>
+            <li>할인 가치 있음 여부 : <strong>{% if predicted_discounts.isWorthy %}O{% else %}X{% endif %}</strong></li>
         </ul>
         {% else %}
             <p><strong>할인 예측 결과가 없습니다.</strong></p>

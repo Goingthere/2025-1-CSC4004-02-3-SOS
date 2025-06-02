@@ -104,11 +104,14 @@ class AppPredictedDiscountInfo(models.Model):
     discountResultID = models.AutoField(primary_key=True)  # 자동 증가 PK
     appID = models.ForeignKey(AppInfo, on_delete=models.CASCADE)  # 앱 ID
 
-    predictedDiscountStart = models.DateTimeField(blank=True, null=True)  # 예측 할인 시작일
-    predictedDiscountPercents = models.IntegerField(blank=True, null=True)  # 예측 할인율
+    isWorthy = models.BooleanField(default=False, blank=True)  # 할인 가치가 있는지 여부
+    predictedDateLeft = models.IntegerField(default=0, blank=True) # 0.1 할인 예측 시점
+    predictedDateMid = models.IntegerField(default=0, blank=True) # 0.5 할인 예측 시점(MAIN)
+    predictedDateRight = models.IntegerField(default=0, blank=True) # 0.9 할인 예측 시점
+    predictedSalePercents = models.IntegerField(blank=True, null=True)  # 예측 할인율
 
     class Meta:
         db_table = 'app_predicted_discount_info'
 
     def __str__(self):
-        return f"{self.appID.appName}, 예측 할인 시작일: {self.predictedDiscountStart}, 예측 할인율: {self.predictedDiscountPercents}%"
+        return f"{self.appID.appName}, 예측 할인 시작일: {self.predictedDateMid}, 예측 할인율: {self.predictedSalePercents}%"
