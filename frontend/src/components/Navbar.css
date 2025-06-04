@@ -16,7 +16,8 @@
 .navbar-custom .navbar-brand,
 .navbar-custom .nav-link,
 .navbar-custom .dropdown-toggle,
-.navbar-custom .dropdown-item {
+.navbar-custom .dropdown-item,
+.navbar-custom .dropdown-menu a {
     color: white !important;
 }
 
@@ -67,3 +68,5 @@
     z-index: 1050;
     /* 드롭다운이 다른 요소 위로 표시되도록 설정 */
 }
+
+
