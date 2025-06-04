@@ -1,12 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './Navbar.css';
 
 const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
-  // localStorage 에 로그인 시 저장해둔 nickname이 있으면 꺼내오고, 없으면 'User' 대체
   const nickname = localStorage.getItem('nickname') || 'User';
+
+  const [notifications, setNotifications] = useState([]);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      // 실제 앱에서는 fetch로 대체 가능
+      const dummyNotifications = [
+        { message: '✅ 새로운 게임이 등록되었습니다.', read: false },
+        { message: '📩 새로운 메시지가 도착했습니다.', read: false },
+        { message: '🎮 인기 게임이 업데이트되었습니다.', read: true },
+      ];
+      setNotifications(dummyNotifications);
+    } else {
+      setNotifications([]);
+    }
+  }, [isLoggedIn]);
+
+  const unreadCount = notifications.filter(n => !n.read).length;
+
+  const markAllAsRead = () => {
+    setNotifications(prev =>
+      prev.map(n => ({ ...n, read: true }))
+    );
+  };
+
+  const handleDropdownToggle = () => {
+    setDropdownOpen(prev => !prev);
+    if (!dropdownOpen) markAllAsRead(); // 드롭다운 열릴 때만 읽음 처리
+  };
 
   const handleLogout = async () => {
     const accessToken = localStorage.getItem('access');
@@ -32,7 +61,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
       if (response.ok) {
         localStorage.removeItem('access');
         localStorage.removeItem('refresh');
-        localStorage.removeItem('nickname'); // 로그아웃 시 닉네임도 제거
+        localStorage.removeItem('nickname');
         setIsLoggedIn(false);
         alert(data.message || '✅ 로그아웃되었습니다.');
       } else {
@@ -110,11 +139,43 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
             </li>
           </ul>
 
-          <button type="button" className="btn btn-light me-2 position-relative">
-            <i className="fa-solid fa-bell"></i>
-            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">!</span>
-          </button>
+          {/* 🔔 알림 드롭다운 */}
+          <div className="dropdown me-2">
+            <button
+              className="btn btn-light position-relative dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded={dropdownOpen}
+              onClick={handleDropdownToggle}
+            >
+              <i className="fa-solid fa-bell"></i>
+              {unreadCount > 0 && (
+                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  !
+                </span>
+              )}
+            </button>
+            <ul
+              className="dropdown-menu dropdown-menu-end"
+              style={{ minWidth: '250px', maxHeight: '300px', overflowY: 'auto' }}
+            >
+              {notifications.length === 0 ? (
+                <li className="dropdown-item text-muted">📭 새 알림이 없습니다.</li>
+              ) : (
+                notifications.map((note, index) => (
+                  <li key={index} className={`dropdown-item ${!note.read ? 'fw-bold' : ''}`}>
+                    {note.message}
+                  </li>
+                ))
+              )}
+              <li><hr className="dropdown-divider" /></li>
+              <li className="dropdown-item text-center">
+                <Link to="/notifications">🔔 모든 알림 보기</Link>
+              </li>
+            </ul>
+          </div>
 
+          {/* 로그인/로그아웃 영역 */}
           {isLoggedIn ? (
             <div className="dropdown">
               <button

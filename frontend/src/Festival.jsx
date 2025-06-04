@@ -1,49 +1,90 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import axios from 'axios';
 
 const Festival = () => {
     const [discount, setDiscount] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [showModal, setShowModal] = useState(false);
     const [currentGameId, setCurrentGameId] = useState(null);
-
+    const [wishlistState, setWishlistState] = useState({});
+    const [desiredDiscounts, setDesiredDiscounts] = useState({});
     const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-
+    // 테스트용 게임 리스트
     const games = [
         {
-            id: 1,
+            id: 123456,
             name: "GameName1",
             img: "https://cdn.akamai.steamstatic.com/steam/apps/2112231/header.jpg",
-            link: "GameMain.html",
+            link: "/home",
         },
         {
-            id: 2,
+            id: 654321,
             name: "GameNane",
             img: "https://cdn.akamai.steamstatic.com/steam/apps/2112231/header.jpg",
-            link: "GameMain.html",
+            link: "/home",
         },
     ];
 
-    const [wishlistState, setWishlistState] = useState(
-        games.reduce((acc, game) => {
-            acc[game.id] = false; // 기본값: 찜(★) 되어있음
-            return acc;
-        }, {})
-    );
+    // 🔹 위시리스트 조회 API 호출
+    useEffect(() => {
+        const token = localStorage.getItem("access_token");
+        if (!token) return;
 
+        axios.get('/api/wishlist/', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+        .then(response => {
+            const newState = {};
+            const discountMap = {};
+            response.data.forEach(item => {
+                newState[item.app_id] = true;
+                discountMap[item.app_id] = item.wish_percent;
+            });
+            setWishlistState(newState);
+            setDesiredDiscounts(discountMap);
+        })
+        .catch(error => {
+            console.error("찜 목록 불러오기 실패", error);
+        });
+    }, []);
 
     const toggleWishlist = (id) => {
         if (wishlistState[id]) {
-            // ★ 찜 되어있으면 바로 해제
-            setWishlistState(prev => ({
-                ...prev,
-                [id]: false
-            }));
+            // 찜 해제 → DELETE 요청
+            const token = localStorage.getItem("access_token");
+            if (!token) {
+                alert("로그인이 필요합니다.");
+                return;
+            }
+
+            const wishPercent = desiredDiscounts[id] || 50;
+
+            axios.delete(`/api/wishlist/${id}/${wishPercent}/`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+            .then(res => {
+                setWishlistState(prev => ({ ...prev, [id]: false }));
+                setDesiredDiscounts(prev => {
+                    const newMap = { ...prev };
+                    delete newMap[id];
+                    return newMap;
+                });
+            })
+            .catch(err => {
+                console.error("찜 해제 실패", err);
+                alert("찜 해제에 실패했습니다.");
+            });
+
         } else {
-            // 빈 별이면 모달 띄우기 (찜 추가는 모달 확인 시)
+            // 찜 등록 → 할인율 모달 열기
             setCurrentGameId(id);
             setShowModal(true);
         }
@@ -52,18 +93,35 @@ const Festival = () => {
     const submitDiscount = () => {
         const num = parseInt(discount);
         if (num >= 1 && num <= 100) {
-            alert(`✅ 입력하신 할인율 ${num}%에 도달하면 알림을 보내드리겠습니다.`);
-            setWishlistState(prev => ({
-                ...prev,
-                [currentGameId]: true // 찜 추가
-            }));
-            setShowModal(false);
-            setDiscount('');
-            setCurrentGameId(null);
+            const token = localStorage.getItem("access_token");
+            if (!token) {
+                alert("로그인이 필요합니다.");
+                return;
+            }
+
+            axios.post('/api/wishlist/', {
+                app_id: currentGameId,
+                desired_discount: num,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(res => {
+                alert(`✅ 입력하신 할인율 ${num}%에 도달하면 알림을 보내드리겠습니다.`);
+                setWishlistState(prev => ({ ...prev, [currentGameId]: true }));
+                setDesiredDiscounts(prev => ({ ...prev, [currentGameId]: num }));
+                closeModal();
+            })
+            .catch(err => {
+                const msg = err.response?.data?.error || "찜 등록에 실패했습니다.";
+                alert(`❌ ${msg}`);
+            });
         } else {
             alert("⚠️ 1부터 100 사이의 숫자를 입력해주세요.");
         }
-    }
+    };
 
     const closeModal = () => {
         setShowModal(false);
@@ -71,49 +129,18 @@ const Festival = () => {
         setCurrentGameId(null);
     };
 
-    // 검색어에 따른 필터링
+    // 검색 필터링
     const filteredGames = games.filter((game) =>
         game.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-custom">
-                <div className="container-fluid">
-                    <Link className="navbar-brand" to="/home"><b>SOS</b></Link>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
-                                <Link className="nav-link" to="#">AllGames</Link>
-                            </li>
-                            <li className="nav-item dropdown">
-                                <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown">
-                                    Community
-                                </Link>
-                                <ul className="dropdown-menu">
-                                    <li><Link className="dropdown-item" to="#">Notion</Link></li>
-                                    <li><Link className="dropdown-item" to="#">Figma</Link></li>
-                                    <li><Link className="dropdown-item" to="#">GitHub</Link></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <button type="button" className="btn btn-light me-2 position-relative">
-                            <i className="fa-solid fa-bell"></i>
-                            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">!</span>
-                        </button>
-                        <Link to="/login" className="btn btn-light ms-2"><b>Login</b></Link>
-                    </div>
-                </div>
-            </nav>
-
             <div className="festival-title-box">
                 <h1 className="festival-title">소규모 축제 1</h1>
             </div>
 
-            <div className="search-box">
+            <div className="search-box" style={{marginBottom: '3rem'}}>
                 <input
                     id="searchInput"
                     type="text"
