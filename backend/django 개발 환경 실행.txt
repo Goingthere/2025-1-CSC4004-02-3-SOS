@@ -8,7 +8,7 @@
 
 3. 가상환경 활성화:
    venv\Scripts\activate
-(비활성화 시에는 deactivate)
+(비활성화 시에는 venv\Scripts\deactivate)
 
 4. 서버 실행:
    python manage.py runserver
