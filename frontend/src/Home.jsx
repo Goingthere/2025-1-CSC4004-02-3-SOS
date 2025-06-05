@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import BannerCarousel from './components/BannerCarousel';  // BannerCarousel 컴포넌트 경로 확인!
+import BannerCarousel from './components/BannerCarousel';
 
 const Home = () => {
   const [query, setQuery] = useState('');
@@ -48,11 +48,23 @@ const Home = () => {
     navigate(`/searchResult?query=${encodeURIComponent(name)}`);
   };
 
+  // 🖱 배너 클릭 시 API 호출 → Festival.jsx로 데이터 전달
+  const handleBannerClick = async (period) => {
+    try {
+      const res = await fetch(`/api/predictions/seasonal/?period=${encodeURIComponent(period)}`);
+      const data = await res.json();
+      navigate('/festival', { state: { predictionData: data } });
+    } catch (err) {
+      console.error('예측 할인 정보 불러오기 실패:', err);
+      alert('할인 정보를 불러오는 데 실패했습니다.');
+    }
+  };
+
   return (
     <div className="search-container">
       {/* 🔍 검색창 */}
       <h2 className="search-title">Search for the game name</h2>
-      <div className="search-box position-relative" style={{marginBottom:'7rem'}}>
+      <div className="search-box position-relative" style={{ marginBottom: '7rem' }}>
         <input
           type="text"
           className="form-control"
@@ -98,31 +110,31 @@ const Home = () => {
 
       <div className="card-container">
         {/* 소규모 축제1 */}
-        <a href="/festival" className="card">
+        <div className="card" onClick={() => handleBannerClick('next-week')} style={{ cursor: 'pointer' }}>
           <BannerCarousel
             period="next-week"
             title="소규모 축제1"
             dateRange="2025.05.11 ~ 2025.05.18"
           />
-        </a>
+        </div>
 
         {/* 소규모 축제2 */}
-        <a href="#" className="card">
+        <div className="card" onClick={() => handleBannerClick('next-next-week')} style={{ cursor: 'pointer' }}>
           <BannerCarousel
             period="next-next-week"
             title="소규모 축제2"
             dateRange="2025.05.12 ~ 2025.05.19"
           />
-        </a>
+        </div>
 
         {/* 대규모 축제 */}
-        <a href="#" className="card">
+        <div className="card" onClick={() => handleBannerClick('next-season')} style={{ cursor: 'pointer' }}>
           <BannerCarousel
             period="next-season"
             title="대규모 축제"
             dateRange="2025.05.12 ~ 2025.05.19"
           />
-        </a>
+        </div>
       </div>
     </div>
   );
