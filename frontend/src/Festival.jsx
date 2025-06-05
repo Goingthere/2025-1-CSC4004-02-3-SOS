@@ -1,76 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import axios from 'axios';
 
-const Festival = () => {
+const Festival = ({ gamesData = [] }) => {
     const [discount, setDiscount] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [showModal, setShowModal] = useState(false);
     const [currentGameId, setCurrentGameId] = useState(null);
     const [wishlistState, setWishlistState] = useState({});
     const [desiredDiscounts, setDesiredDiscounts] = useState({});
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-    // 테스트용 게임 리스트
-    const games = [
-        {
-            id: 123456,
-            name: "GameName1",
-            img: "https://cdn.akamai.steamstatic.com/steam/apps/2112231/header.jpg",
-            link: "/home",
-        },
-        {
-            id: 654321,
-            name: "GameNane",
-            img: "https://cdn.akamai.steamstatic.com/steam/apps/2112231/header.jpg",
-            link: "/home",
-        },
-    ];
+    // 전달받은 gamesData가 비어있으면 빈 배열 처리
+    const games = gamesData;
 
-    // 🔹 위시리스트 조회 API 호출
-    useEffect(() => {
-        const token = localStorage.getItem("access_token");
-        if (!token) return;
-
-        axios.get('/api/wishlist/', {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        })
-        .then(response => {
-            const newState = {};
-            const discountMap = {};
-            response.data.forEach(item => {
-                newState[item.app_id] = true;
-                discountMap[item.app_id] = item.wish_percent;
-            });
-            setWishlistState(newState);
-            setDesiredDiscounts(discountMap);
-        })
-        .catch(error => {
-            console.error("찜 목록 불러오기 실패", error);
-        });
-    }, []);
+    // 위시리스트 조회 API 호출 - 필요시 useEffect에 넣으세요
+    // (원본에 있던 코드는 여기에 넣거나, 상위 컴포넌트에서 관리하는 게 좋음)
 
     const toggleWishlist = (id) => {
+        // 기존 toggleWishlist 로직 유지
         if (wishlistState[id]) {
-            // 찜 해제 → DELETE 요청
             const token = localStorage.getItem("access_token");
             if (!token) {
                 alert("로그인이 필요합니다.");
                 return;
             }
-
             const wishPercent = desiredDiscounts[id] || 50;
 
             axios.delete(`/api/wishlist/${id}/${wishPercent}/`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
+                headers: { Authorization: `Bearer ${token}` }
             })
-            .then(res => {
+            .then(() => {
                 setWishlistState(prev => ({ ...prev, [id]: false }));
                 setDesiredDiscounts(prev => {
                     const newMap = { ...prev };
@@ -78,13 +38,8 @@ const Festival = () => {
                     return newMap;
                 });
             })
-            .catch(err => {
-                console.error("찜 해제 실패", err);
-                alert("찜 해제에 실패했습니다.");
-            });
-
+            .catch(() => alert("찜 해제에 실패했습니다."));
         } else {
-            // 찜 등록 → 할인율 모달 열기
             setCurrentGameId(id);
             setShowModal(true);
         }
@@ -98,7 +53,6 @@ const Festival = () => {
                 alert("로그인이 필요합니다.");
                 return;
             }
-
             axios.post('/api/wishlist/', {
                 app_id: currentGameId,
                 desired_discount: num,
@@ -108,7 +62,7 @@ const Festival = () => {
                     'Content-Type': 'application/json',
                 }
             })
-            .then(res => {
+            .then(() => {
                 alert(`✅ 입력하신 할인율 ${num}%에 도달하면 알림을 보내드리겠습니다.`);
                 setWishlistState(prev => ({ ...prev, [currentGameId]: true }));
                 setDesiredDiscounts(prev => ({ ...prev, [currentGameId]: num }));
@@ -130,8 +84,8 @@ const Festival = () => {
     };
 
     // 검색 필터링
-    const filteredGames = games.filter((game) =>
-        game.name.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredGames = games.filter(game =>
+        game.app_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
@@ -140,7 +94,7 @@ const Festival = () => {
                 <h1 className="festival-title">소규모 축제 1</h1>
             </div>
 
-            <div className="search-box" style={{marginBottom: '3rem'}}>
+            <div className="search-box" style={{ marginBottom: '3rem' }}>
                 <input
                     id="searchInput"
                     type="text"
@@ -151,19 +105,23 @@ const Festival = () => {
             </div>
 
             <div className="game-list" id="gameList">
+                {filteredGames.length === 0 && (
+                    <div>할인 게임 예측 정보를 불러오지 못했습니다.</div>
+                )}
+
                 {filteredGames.map((game) => (
-                    <div className="game-item" key={game.id}>
-                        <a href={game.link} className="game-info-omit">
+                    <div className="game-item" key={game.app_id}>
+                        <a href={`/home`} className="game-info-omit">
                             <img
-                                src={game.img}
-                                alt="Game Image"
+                                src={game.app_image}
+                                alt={game.app_name}
                             />
                             <div className="game-name-omit">
-                                {game.name}
+                                {game.app_name}
                             </div>
                         </a>
-                        <div className="wishlist-btn" onClick={() => toggleWishlist(game.id)}>
-                            <i className={wishlistState[game.id] ? "fa-solid fa-star" : "fa-regular fa-star"}></i>
+                        <div className="wishlist-btn" onClick={() => toggleWishlist(game.app_id)}>
+                            <i className={wishlistState[game.app_id] ? "fa-solid fa-star" : "fa-regular fa-star"}></i>
                         </div>
                     </div>
                 ))}
